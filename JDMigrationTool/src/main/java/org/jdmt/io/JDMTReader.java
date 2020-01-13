@@ -30,8 +30,18 @@ public class JDMTReader {
 	}
 	
 	private JDMaterial getJDMaterial(String line) {
+		//note: substring (start index - last char index+1)
 		JDMaterial material=new JDMaterial();
-		System.out.println(line);
+		material.setId(line.substring(0, 18).trim());
+		material.setRecordType(String.valueOf(line.charAt(18)));
+		material.setPricingCountry(line.substring(19, 21).trim());
+		material.setCoreIndicator(String.valueOf(line.charAt(21)));
+		material.setSourceOfSupply(line.substring(22,24).trim());
+		material.setDescription(line.substring(24, 51).trim());
+		material.setPackageQuantity(Integer.valueOf(line.substring(51, 56)));
+		material.setDealerNetPrice(Double.valueOf(line.substring(56, 72)));
+		
+		System.out.println(material.getId()+"\t"+material.getRecordType()+"\t"+material.getDescription()+"\t"+material.getSourceOfSupply()+"\t"+material.getDealerNetPrice());
 		return null;
 	}
 	
