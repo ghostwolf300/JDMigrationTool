@@ -8,7 +8,7 @@ public class JDMaterial extends AbstractMaterial {
 	private String sourceOfSupply;
 	private int packageQuantity;
 	private double dealerNetPrice;
-	private double dealerListPrice;
+	private double deereListPrice;
 	private double coreExchangeNetPrice;
 	private double coreExchangeListPrice;
 	private double returnCreditNetPrice;
@@ -16,7 +16,7 @@ public class JDMaterial extends AbstractMaterial {
 	private String returnIndicator;
 	private String criticalCode;
 	private String competitivePartCode; //Deere CommodityCode doesn't mean tariff code
-	private String yearOfProduction;
+	private String yearOutOfProduction;
 	private String pricedPerIndicator;
 	private double shippingWeight;
 	private double largestDimension;
@@ -111,14 +111,14 @@ public class JDMaterial extends AbstractMaterial {
 
 
 
-	public double getDealerListPrice() {
-		return dealerListPrice;
+	public double getDeereListPrice() {
+		return deereListPrice;
 	}
 
 
 
-	public void setDealerListPrice(double dealerListPrice) {
-		this.dealerListPrice = dealerListPrice;
+	public void setDeereListPrice(double dealerListPrice) {
+		this.deereListPrice = dealerListPrice;
 	}
 
 
@@ -207,14 +207,14 @@ public class JDMaterial extends AbstractMaterial {
 
 
 
-	public String getYearOfProduction() {
-		return yearOfProduction;
+	public String getYearOutOfProduction() {
+		return yearOutOfProduction;
 	}
 
 
 
-	public void setYearOfProduction(String yearOfProduction) {
-		this.yearOfProduction = yearOfProduction;
+	public void setYearOutOfProduction(String yearOfProduction) {
+		this.yearOutOfProduction = yearOfProduction;
 	}
 
 
@@ -371,6 +371,96 @@ public class JDMaterial extends AbstractMaterial {
 
 	public void setCurrencyCode(String currencyCode) {
 		this.currencyCode = currencyCode;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return recordType + "; " + pricingCountry + "; " + coreIndicator + "; " + sourceOfSupply + "; "
+				+ packageQuantity + "; " + dealerNetPrice + "; " + deereListPrice + "; " + coreExchangeNetPrice + "; "
+				+ coreExchangeListPrice + "; " + returnCreditNetPrice + "; " + returnCreditListPrice + "; "
+				+ returnIndicator + "; " + criticalCode + "; " + competitivePartCode + "; " + yearOutOfProduction + "; "
+				+ pricedPerIndicator + "; " + shippingWeight + "; " + largestDimension + "; " + middleDimension + "; "
+				+ smallestDimension + "; " + partAccountingUnit + "; " + replenishmentSource + "; " + priceEffectiveDate
+				+ "; " + stockOrderDiscount + "; " + deereSource + "; " + dealerMargin + "; " + inventoryClass + "; "
+				+ currencyCode + "; " + getId() + "; " + getDescription() + "; " + getBaseUOM() + "; " + getLength()
+				+ "; " + getWidth() + "; " + getHeight() + "; " + getNetWeight() + "; " + getGrossWeight() + "; "
+				+ getEanCode() + "; " + getCommodityCode() + "]";
+	}
+	
+	public Object[] getObjectArray() {
+		Object[] arrObjects=new Object[] {
+				super.getId(),
+				this.getRecordType(),
+				this.getPricingCountry(),
+				this.getCoreIndicator(),
+				this.getSourceOfSupply(),
+				super.getDescription(),
+				this.getPackageQuantity(),
+				this.getDealerNetPrice(),
+				this.getDeereListPrice(),
+				this.getCoreExchangeNetPrice(),
+				this.getCoreExchangeListPrice(),
+				this.getReturnCreditNetPrice(),
+				this.getReturnCreditListPrice(),
+				this.getReturnIndicator(),
+				this.getCriticalCode(),
+				this.getCompetitivePartCode(),
+				this.getYearOutOfProduction(),
+				this.getPricedPerIndicator(),
+				this.getShippingWeight(),
+				this.getLargestDimension(),
+				this.getMiddleDimension(),
+				this.getSmallestDimension(),
+				this.getPartAccountingUnit(),
+				this.getReplenishmentSource(),
+				this.getPriceEffectiveDate(),
+				this.getStockOrderDiscount(),
+				this.getDeereSource(),
+				this.getCommodityCode(),
+				this.getDealerMargin(),
+				this.getInventoryClass(),
+				this.getCurrencyCode()
+		};
+		return arrObjects;
+	}
+	
+	public static String[] getHeaders() {
+		String[] header=new String[] {
+			"JDID",
+			"RECORD_TYPE",
+			"PRICING_COUNTRY",
+			"CORE_INDICATOR",
+			"SOURCE_OF_SUPPLY",
+			"DESCRIPTION",
+			"PACKAGE_QTY",
+			"DEALER_NET_PRICE",
+			"DEERE_LIST_PRICE",
+			"CORE_EXCH_NET_PRICE",
+			"CORE_EXCH_LIST_PRICE",
+			"RETURN_CREDIT_NET_PRICE",
+			"RETURN_CREDIT_LIST_PRICE",
+			"RETURN_INDICATOR",
+			"CRITICAL_CODE",
+			"COMP_PART_CODE",
+			"YEAR_OUT_OF_PROD",
+			"PRICED_PER_INDICATOR",
+			"SHIPPING_WEIGHT",
+			"LARGEST_DIM",
+			"MIDDLE_DIM",
+			"SMALLEST_DIM",
+			"PART_ACCT_UNIT",
+			"REPLENISHMENT_SOURCE",
+			"PRICE_EFFECTIVE_DATE",
+			"STOCK_ORDER_DISCOUNT",
+			"DEERE_SOURCE",
+			"COMMODITY_CODE",
+			"DEALER_MARGIN",
+			"INVENTORY_CLASS",
+			"CURRENCY_CODE"
+		};
+		return header;
 	}
 	
 }
