@@ -38,7 +38,7 @@ public class JDMTReader {
 		material.setCoreIndicator(String.valueOf(line.charAt(21)));
 		material.setSourceOfSupply(line.substring(22,24).trim());
 		material.setDescription(line.substring(24, 51).trim());
-		material.setPackageQuantity(Integer.valueOf(line.substring(51, 56)));
+		material.setPackageQuantity(getNumericValueInteger(line.substring(51, 56).trim()));
 		material.setDealerNetPrice(getNumericValueDouble(line.substring(56, 72).trim()));
 		material.setDeereListPrice(getNumericValueDouble(line.substring(72, 88).trim()));
 		material.setCoreExchangeNetPrice(getNumericValueDouble(line.substring(88, 104).trim()));
@@ -60,7 +60,7 @@ public class JDMTReader {
 		material.setStockOrderDiscount(String.valueOf(line.charAt(216)));
 		material.setDeereSource(line.substring(217,221).trim());
 		material.setCommodityCode(line.substring(221,231).trim());
-		material.setDealerMargin(Integer.valueOf(line.substring(231,234).trim()));
+		material.setDealerMargin(getNumericValueInteger(line.substring(231,234).trim()));
 		material.setInventoryClass(String.valueOf(line.charAt(234)));
 		material.setCurrencyCode(line.substring(235,238).trim());
 		
@@ -72,6 +72,14 @@ public class JDMTReader {
 		double val=0.0;
 		if(!numberField.equals(".")) {
 			val=Double.valueOf(numberField);
+		}
+		return val;
+	}
+	
+	private int getNumericValueInteger(String numberField) {
+		int val=0;
+		if(!numberField.equals(".")) {
+			val=Integer.valueOf(numberField);
 		}
 		return val;
 	}
