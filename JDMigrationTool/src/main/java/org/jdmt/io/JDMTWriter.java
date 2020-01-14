@@ -20,9 +20,13 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdmt.dto.JDMaterial;
 
+import com.healthmarketscience.jackcess.Database;
+import com.healthmarketscience.jackcess.DatabaseBuilder;
+import com.healthmarketscience.jackcess.Table;
+
 public class JDMTWriter {
 	
-	public void writeFile(List<JDMaterial> materials, String filePath) {
+	public void saveToExcel(List<JDMaterial> materials, String filePath) {
 		File file=new File(filePath);
 		FileOutputStream fos=null;
 		SXSSFWorkbook book=null;
@@ -91,6 +95,71 @@ public class JDMTWriter {
 				cell.setCellValue((Integer)o);
 			}
 			colIndex++;
+		}
+	}
+	
+	public void saveToAccess(List<JDMaterial> materials, String dbPath) {
+		Database db=null;
+		Table table=null;
+		int counter=0;
+		try {
+			db=DatabaseBuilder.open(new File(dbPath));
+			table=db.getTable("tbl_jd_data");
+			for(JDMaterial material : materials) {
+				table.addRow(
+					material.getId(),
+					material.getRecordType(),
+					material.getPricingCountry(),
+					material.getCoreIndicator(),
+					material.getSourceOfSupply(),
+					material.getDescription(),
+					material.getPackageQuantity(),
+					material.getDealerNetPrice(),
+					material.getDeereListPrice(),
+					material.getCoreExchangeNetPrice(),
+					material.getCoreExchangeListPrice(),
+					material.getReturnCreditNetPrice(),
+					material.getReturnCreditListPrice(),
+					material.getReturnIndicator(),
+					material.getCriticalCode(),
+					material.getCompetitivePartCode(),
+					material.getYearOutOfProduction(),
+					material.getPricedPerIndicator(),
+					material.getShippingWeight(),
+					material.getLargestDimension(),
+					material.getMiddleDimension(),
+					material.getSmallestDimension(),
+					material.getPartAccountingUnit(),
+					material.getReplenishmentSource(),
+					material.getPriceEffectiveDate(),
+					material.getStockOrderDiscount(),
+					material.getDeereSource(),
+					material.getCommodityCode(),
+					material.getDealerMargin(),
+					material.getInventoryClass(),
+					material.getCurrencyCode()
+				);
+				counter++;
+				if(counter % 10000 == 0) {
+					System.out.println("Rows inserted: "+counter);
+					db.flush();
+				}
+			}
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(db!=null) {
+					db.close();
+				}
+			} 
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

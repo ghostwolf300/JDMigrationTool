@@ -23,12 +23,16 @@ public class JDMTool {
 		//String inFilePath="C:/Users/ville.susi/Documents/Digital Development/Projects/John Deere/TESTFILE_SMALL.V2-2019-12-30";
 		String inFilePath="C:/Users/ville.susi/Documents/Digital Development/Projects/John Deere/de19_dwnld_v2-2019-12-30/DE19.DWNLD.V2-2019-12-30";
 		String outFilePath="C:/Users/ville.susi/Documents/Digital Development/Projects/John Deere/JD Data.xlsx";
+		String dbPath="C:/Users/ville.susi/Documents/Digital Development/Projects/John Deere/JDDB.accdb";
 		
 		JDMTool tool=new JDMTool();
 		List<JDMaterial> materials=tool.reader.readJDFile(inFilePath);
 		System.out.println("JD material count: "+materials.size());
-		tool.writer.writeFile(materials, outFilePath);
-
+		//tool.writer.saveToExcel(materials, outFilePath);
+		tool.writer.saveToAccess(materials, dbPath);
+		
+		materials=null;
+		
 	}
 
 }
