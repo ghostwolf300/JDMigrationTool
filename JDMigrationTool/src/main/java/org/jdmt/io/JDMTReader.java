@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.jdmt.dto.JDMaterial;
+import org.jdmt.dto.PartSubstitution;
 
 public class JDMTReader {
 	
@@ -27,6 +28,23 @@ public class JDMTReader {
 		}
 		
 		return materials;
+	}
+	
+	public List<PartSubstitution> readPartSubstitutionFile(String filePath){
+		List<PartSubstitution> partSubs=new ArrayList<PartSubstitution>();
+		
+		try(Stream<String> lines=Files.lines(Paths.get(filePath))){
+			for(String line : (Iterable<String>) lines :: iterator) {
+				PartSubstitution partSub=getPartSubstitution(line);
+				partSubs.add(partSub);
+			}
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return partSubs;
 	}
 	
 	private JDMaterial getJDMaterial(String line) {
@@ -68,9 +86,33 @@ public class JDMTReader {
 		return material;
 	}
 	
+	private PartSubstitution getPartSubstitution(String line) {
+		PartSubstitution partSub=new PartSubstitution();
+		partSub.setOldPart(line.substring(0, 13).trim());
+		partSub.setSubType(line.substring(12,14).trim());
+		partSub.setFactoryCode(line.substring(15, 17).trim());
+		partSub.setNewPart1(line.substring(18, 30).trim());
+		partSub.setQtyNewPart1(getNumericValueInteger(line.substring(31, 34).trim()));
+		partSub.setNewPart2(line.substring(35, 47).trim());
+		partSub.setQtyNewPart2(getNumericValueInteger(line.substring(48, 51).trim()));
+		partSub.setNewPart3(line.substring(52, 64).trim());
+		partSub.setQtyNewPart3(getNumericValueInteger(line.substring(65, 68).trim()));
+		partSub.setNewPart4(line.substring(69, 81).trim());
+		partSub.setQtyNewPart4(getNumericValueInteger(line.substring(82, 85).trim()));
+		partSub.setNewPart5(line.substring(86, 98).trim());
+		partSub.setQtyNewPart5(getNumericValueInteger(line.substring(99, 102).trim()));
+		partSub.setNewPart6(line.substring(103, 115).trim());
+		partSub.setQtyNewPart6(getNumericValueInteger(line.substring(116, 119).trim()));
+		partSub.setNewPart7(line.substring(120, 132).trim());
+		partSub.setQtyNewPart7(getNumericValueInteger(line.substring(133, 136).trim()));
+		partSub.setTypeOfSub(String.valueOf(line.charAt(137)));
+		partSub.setInterchangeable(String.valueOf(line.charAt(139)));
+		return partSub;
+	}
+	
 	private double getNumericValueDouble(String numberField) {
 		double val=0.0;
-		if(!numberField.equals(".")) {
+		if(!numberField.isEmpty() && !numberField.equals(".")) {
 			val=Double.valueOf(numberField);
 		}
 		return val;
@@ -78,7 +120,7 @@ public class JDMTReader {
 	
 	private int getNumericValueInteger(String numberField) {
 		int val=0;
-		if(!numberField.equals(".")) {
+		if(!numberField.isEmpty() && !numberField.equals(".")) {
 			val=Integer.valueOf(numberField);
 		}
 		return val;

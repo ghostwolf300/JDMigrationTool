@@ -19,6 +19,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jdmt.dto.JDMaterial;
+import org.jdmt.dto.PartSubstitution;
 
 import com.healthmarketscience.jackcess.Database;
 import com.healthmarketscience.jackcess.DatabaseBuilder;
@@ -98,7 +99,7 @@ public class JDMTWriter {
 		}
 	}
 	
-	public void saveToAccess(List<JDMaterial> materials, String dbPath) {
+	public void saveJDMaterialsToAccess(List<JDMaterial> materials, String dbPath) {
 		Database db=null;
 		Table table=null;
 		int counter=0;
@@ -138,6 +139,59 @@ public class JDMTWriter {
 					material.getDealerMargin(),
 					material.getInventoryClass(),
 					material.getCurrencyCode()
+				);
+				counter++;
+				if(counter % 10000 == 0) {
+					System.out.println("Rows inserted: "+counter);
+					db.flush();
+				}
+			}
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(db!=null) {
+					db.close();
+				}
+			} 
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void savePartSubstitutionsToAccess(List<PartSubstitution> partSubs,String dbPath) {
+		Database db=null;
+		Table table=null;
+		int counter=0;
+		try {
+			db=DatabaseBuilder.open(new File(dbPath));
+			table=db.getTable("tbl_part_substitution");
+			for(PartSubstitution partSub : partSubs) {
+				table.addRow(
+					partSub.getOldPart(),
+					partSub.getSubType(),
+					partSub.getFactoryCode(),
+					partSub.getNewPart1(),
+					partSub.getQtyNewPart1(),
+					partSub.getNewPart2(),
+					partSub.getQtyNewPart2(),
+					partSub.getNewPart3(),
+					partSub.getQtyNewPart3(),
+					partSub.getNewPart4(),
+					partSub.getQtyNewPart4(),
+					partSub.getNewPart5(),
+					partSub.getQtyNewPart5(),
+					partSub.getNewPart6(),
+					partSub.getQtyNewPart6(),
+					partSub.getNewPart7(),
+					partSub.getQtyNewPart7(),
+					partSub.getTypeOfSub(),
+					partSub.getInterchangeable()
 				);
 				counter++;
 				if(counter % 10000 == 0) {
